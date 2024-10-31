@@ -19,15 +19,49 @@
     <!-- add task // miltipl -->
     <div class="flex space-x-4 justify-end py-4">
         <div>
-            <button id="Add" class="h-10 w-auto px-1 bg-orange-500 border hover:bg-green-600 rounded-xl ">Add Task</button>
-            
-        </div>
-        <!-- <div>
-            <button id="Add-Multipl" class="h-10 w-auto px-1 bg-orange-500 border hover:bg-green-600 rounded-xl ">Add Multipl Task</button>
-        </div> -->
-        <div>
-            <input type="text" placeholder="recherche" 
+            <input type="text" placeholder="Recherche" 
             class="h-10 mx-0 border border-blue-800 rounded-xl px-4 font-bold">
+        </div>
+
+        <button id="openTask" class="px-4 py-2 h-10 text-white border bg-red-500 hover:bg-blue-400 rounded">Add Task</button>
+
+        <div id="Task" class="fixed inset-0 bg-gray-900 bg-opacity-50 bg-full  hidden flex justify-center items-center">
+            <form action="" class="bg-white p-5 rounded shadow-lg max-w-sm w-full">
+                <h2 class="text-xl font-semibold">Ajouter une Tâche</h2>
+ 
+                <div class="mt-4 ">
+                    <label for="Title" class="block">New Task :</label>
+                    <input type="text" id="Title" class="h-10 border border-blue-800 rounded-xl px-2 w-full">
+                </div>
+
+                <div class="mt-4">
+                    <label for="Description" class="block">Description de la Tâche :</label>
+                    <input type="text" id="Description" class="h-10 border border-blue-800 rounded-xl px-2 w-full">
+                </div>
+                <div>
+                    <label for="select priorite" class="">Priorite du tache</label>
+                    <select name="select" id="Priorite" class="h-10 border border-blue-800 rounded-xl px-2 w-full text-center">
+                        <option value=""></option>
+                        <option value="1">P - 1</option>
+                        <option value="2">P - 2</option>
+                        <option value="3">P - 3</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="Statut" class="">statut</label>
+                    <select name="select" id="Status" class="h-10 border border-blue-800 rounded-xl px-2 w-full ">
+                        <option value=""></option>
+                        <option value="1">To Do</option>
+                        <option value="2">In Progress</option>
+                        <option value="3">Done</option>
+                    </select>
+                </div>
+                <input type="date" name="date" id="Date">
+                <div id="button" class="flex justify-around">
+                    <button id="Add" class="mt-4 px-4 py-2 text-white bg-red-500 rounded">Add</button>
+                    <button id="closeTask" class="mt-4 px-4 py-2 text-white bg-red-500 rounded">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </nav>
@@ -60,11 +94,65 @@
 
 <!-- JS -->
 <script>
-document.getElementById('AddID');
-document.getElementById(':::::');
-document.getElementById('');
-document.getElementById('');
-document.getElementById('');
+document.getElementById('openTask').addEventListener('click', function() {
+            document.getElementById('Task').classList.remove('hidden');
+        });
+
+        document.getElementById('Add').addEventListener('click', function() {
+            document.getElementById('Task').classList.add('hidden');
+        });
+
+        document.getElementById('closeTask').addEventListener('click', function() {
+            document.getElementById('Task').classList.add('hidden');
+        });
+
+document.getElementById('Add').addEventListener('click',function(event){
+    event.preventDefault();
+
+    const title = document.getElementById('Title').value;
+    const Description = document.getElementById('Description').value;
+    const Priorite = document.getElementById('Priorite').value;
+    const Status = document.getElementById('Status').value;
+    const Date = document.getElementById('Date').value;
+    
+    if (title && Status ){
+
+        const taskElement = document.createElement('div');
+        taskElement.classList.add(
+        'bg-gray-100',  // couleur de fond
+        'border',       // bordure
+        'border-gray-300', // couleur de la bordure
+        'rounded-lg',   // coins arrondis
+        'p-4',          // padding
+        'mb-2',         // margin en bas
+        'flex',         // flexbox
+        'justify-between', // espace entre les éléments
+        'items-center'
+        );
+
+        taskElement.innerHTML = `
+        <span>${title} - ${Description} (Priorité: ${Priorite})</span>
+        <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Supprimer</button>`;
+
+        if (Status==="1"){
+            document.getElementById('To-Do').appendChild(taskElement);
+        }else if (Status==="2"){
+            document.getElementById('In-Progress').appendChild(taskElement);
+        }else if(Status==='3'){
+            document.getElementById('Done').appendChild(taskElement);
+        }
+
+        document.getElementById('Task').classList.add('hidden');
+        document.getElementById('Title').value='';
+        document.getElementById('Priorite').value='';
+        document.getElementById('Description').value='';
+        document.getElementById('Status').value='';
+        document.getElementById('Date').value='';
+
+    }
+});
+
+
 
 </script>
 </html>
