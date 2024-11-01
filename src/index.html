@@ -17,13 +17,13 @@
     </div> -->
 
     <!-- add task // miltipl -->
-    <div class="flex space-x-4 justify-end py-4">
+    <div class="flex  justify-end py-4">
         <div>
             <input type="text" placeholder="Recherche" 
             class="h-10 mx-0 border border-blue-800 rounded-xl px-4 font-bold">
         </div>
 
-        <button id="openTask" class="px-4 py-2 h-10 text-white border bg-red-500 hover:bg-blue-400 rounded">Add Task</button>
+        <button id="openTask" class="px-4 mx-2 py-2 h-10 text-white border bg-red-500 hover:bg-blue-400 rounded-xl">Add Task</button>
 
         <div id="Task" class="fixed inset-0 bg-gray-900 bg-opacity-50 bg-full  hidden flex justify-center items-center">
             <form action="" class="bg-white p-5 rounded shadow-lg max-w-sm w-full">
@@ -36,15 +36,15 @@
 
                 <div class="mt-4">
                     <label for="Description" class="block">Description de la Tâche :</label>
-                    <input type="text" id="Description" class="h-10 border border-blue-800 rounded-xl px-2 w-full">
+                    <input type="texte" id="Description" class="h-10 border border-blue-800 rounded-xl px-2 w-full">
                 </div>
                 <div>
                     <label for="select priorite" class="">Priorite du tache</label>
                     <select name="select" id="Priorite" class="h-10 border border-blue-800 rounded-xl px-2 w-full text-center">
                         <option value=""></option>
-                        <option value="1">P - 1</option>
-                        <option value="2">P - 2</option>
-                        <option value="3">P - 3</option>
+                        <option value="1">P.1</option>
+                        <option value="2">P.2</option>
+                        <option value="3">P.3</option>
                     </select>
                 </div>
                 <div>
@@ -52,12 +52,16 @@
                     <select name="select" id="Status" class="h-10 border border-blue-800 rounded-xl px-2 w-full ">
                         <option value=""></option>
                         <option value="1">To Do</option>
-                        <option value="2">In Progress</option>
+                        <option value="2">Doing</option>
                         <option value="3">Done</option>
                     </select>
                 </div>
-                <input type="date" name="date" id="Date">
-                <div id="button" class="flex justify-around">
+
+                <div>
+                    <label for="Date" class="">Date d’échéance</label>
+                    <input type="date" id="Date" class="h-10 border border-blue-800 rounded-xl px-2 w-full text-center">
+                </div>
+                <div id="button" class="flex justify-around w-full">
                     <button id="Add" class="mt-4 px-4 py-2 text-white bg-red-500 rounded">Add</button>
                     <button id="closeTask" class="mt-4 px-4 py-2 text-white bg-red-500 rounded">Close</button>
                 </div>
@@ -66,31 +70,42 @@
     </div>
 </nav>
 
-<section class=" bg-blue-300 h-[600px]  ">
+<section class=" bg-gray-200 h-screen ">
     <h1 class="text-center font-extrabold font-extralight text-3xl pt-4 pb-1">To Do List</h1>
     <div class="flex space-x-10 justify-center ">
         
-        <div id="To-Do" class="bg-blue-200 my-10 w-80 h-[450px] border border-blue-800 rounded-3xl">
-            <h1 class="text-center font-bold font-extralight text-3xl bg-blue-500 py-2 border border-blue-800 rounded-3xl rounded-b-none">
+        <div id="To-Do" class="bg-blue-200 my-10 w-80 h-auto border border-blue-400 rounded-3xl">
+            <h1 class="text-center  font-extralight text-3xl bg-blue-500 py-2 border border-blue-800 rounded-3xl rounded-b-none">
             To Do
             </h1>
+            <div id="tasksToDo" class="pb-4"></div>
         </div>
-        <div id="In-Progress" class="bg-orange-200 my-10 w-80 h-[450px] border border-blue-800 rounded-3xl">
-            <h1 class="text-center font-bold font-extralight text-3xl bg-orange-500 py-2 border border-blue-800 rounded-3xl rounded-b-none">
-                In Progress
+        <div id="Doing" class="bg-orange-200 my-10 w-80 h-auto border border-orange-400 rounded-3xl">
+            <h1 class="text-center  font-extralight text-3xl bg-orange-500 py-2 border border-blue-800 rounded-3xl rounded-b-none">
+                Doing
             </h1>
+            <div id="tasksDoing" class="pb-4"></div>
         </div>
-        <div id="Done" class="bg-green-200 my-10 w-80 h-[450px] border border-blue-800 rounded-3xl">
-            <h1 class="text-center font-bold font-extralight text-3xl bg-green-500 py-2 border border-blue-800 rounded-3xl rounded-b-none">
+        <div id="Done" class="bg-green-200 my-10 w-80 h-auto border border-green-400 rounded-3xl">
+            <h1 class="text-center  font-extralight text-3xl bg-green-500 py-2 border border-blue-800 rounded-3xl rounded-b-none">
                 Done
             </h1>
+            <div id="tasksDone" class="pb-4"></div>
         </div>
     </div>  
 </section>
+<section id="editModal">
+    <select name="" id="selectStatus">
+        <option value="todo">todo</option>
+        <option value="doing">doing</option>
+        <option value="done">done</option>
+    </select>
+    <button>Submit</button>
+</section>
 
-<footer class="bg-blue-500 h-16 text-center p-4 font-serif font-bold text-3xl">
+<!-- <footer class="bg-blue-500 h-16 text-center p-4 font-serif font-bold text-3xl">
     List. Check. Win!
-</footer>
+</footer> -->
 
 <!-- JS -->
 <script>
@@ -106,6 +121,7 @@ document.getElementById('openTask').addEventListener('click', function() {
             document.getElementById('Task').classList.add('hidden');
         });
 
+
 document.getElementById('Add').addEventListener('click',function(event){
     event.preventDefault();
 
@@ -116,28 +132,38 @@ document.getElementById('Add').addEventListener('click',function(event){
     const Date = document.getElementById('Date').value;
     
     if (title && Status ){
-
         const taskElement = document.createElement('div');
+
         taskElement.classList.add(
-        'bg-gray-100',  // couleur de fond
-        'border',       // bordure
-        'border-gray-300', // couleur de la bordure
-        'rounded-lg',   // coins arrondis
-        'p-4',          // padding
-        'mb-2',         // margin en bas
-        'flex',         // flexbox
-        'justify-between', // espace entre les éléments
-        'items-center'
-        );
+        'bg-gray-100', 'border','border-gray-300','rounded-lg','p-4','my-2', 'mx-4','flex');
+        
+        switch (Priorite) {
+            case "1":
+                taskElement.style.backgroundColor = 'red';
+                break;
+            case "2":
+                taskElement.style.backgroundColor = 'orange'; 
+                break;
+            case "3":
+                taskElement.style.backgroundColor = 'green'; 
+                break;
+        }
+        
 
         taskElement.innerHTML = `
-        <span>${title} - ${Description} (Priorité: ${Priorite})</span>
-        <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Supprimer</button>`;
+            <div><h3 class="text-xl font-bold">${title}</h3>
+            </div>
+            <hr> 
+            <p class="mt-2">${Description}</p> 
+            <div class="mt-4 flex justify-between items-center w-full">
+                <span>${Date}</span>
+            </div>
+            `;
 
         if (Status==="1"){
             document.getElementById('To-Do').appendChild(taskElement);
         }else if (Status==="2"){
-            document.getElementById('In-Progress').appendChild(taskElement);
+            document.getElementById('Doing').appendChild(taskElement);
         }else if(Status==='3'){
             document.getElementById('Done').appendChild(taskElement);
         }
@@ -152,7 +178,10 @@ document.getElementById('Add').addEventListener('click',function(event){
     }
 });
 
+    
+function editTask(id){
 
+}
 
 </script>
 </html>
