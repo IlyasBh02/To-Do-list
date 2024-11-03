@@ -7,7 +7,7 @@
   
 </head>
 
-<nav class="w-100% h-[85px] bg-blue-500 flex justify-around">
+<nav class="w-full h-[85px] bg-blue-500 flex flex-col md:flex-row justify-around items-center">
     <!-- <img src="/img/Logo.png" alt="Logo" class="h-14 my-4">
     <div class="my-4 ">
     <input type="text" placeholder="search Task" 
@@ -31,12 +31,12 @@
  
                 <div class="mt-4 ">
                     <label for="Title" class="block">New Task :</label>
-                    <input type="text" id="Title" class="h-10 border border-blue-800 rounded-xl px-2 w-full">
+                    <input type="textarea" id="Title" class="h-10 border border-blue-800 rounded-xl px-2 w-full">
                 </div>
 
                 <div class="mt-4">
                     <label for="Description" class="block">Description de la Tâche :</label>
-                    <input type="texte" id="Description" class="h-10 border border-blue-800 rounded-xl px-2 w-full">
+                    <input type="text" id="Description" class="h-10 border border-blue-800 rounded-xl px-2 w-full">
                 </div>
                 <div>
                     <label for="select priorite" class="">Priorite du tache</label>
@@ -72,36 +72,64 @@
 
 <section class=" bg-gray-200 h-screen ">
     <h1 class="text-center font-extrabold font-extralight text-3xl pt-4 pb-1">To Do List</h1>
-    <div class="flex space-x-10 justify-center ">
-        
+    <div id="taskStats" class="text-center my-4">
+        <p><span class="font-semibold">Total des taches: </span><span id="totalTasks" class="font-semibold">0</span></p>
+    </div>
+
+    <div class="flex flex-col md:flex-row justify-center space-x-10 space-y-10 md:space-y-0"> 
+    <div class="flex space-x-10 justify-center">
+
+
+
         <div id="To-Do" class="bg-blue-200 my-10 w-80 h-auto border border-blue-400 rounded-3xl">
             <h1 class="text-center  font-extralight text-3xl bg-blue-500 py-2 border border-blue-800 rounded-3xl rounded-b-none">
-            To Do
+            To Do <span id="tasksToDoCount" class="text-white">(0)</span>
+            <label for="sortToDo"></label>
+                <select id="sortToDo" onchange="sortTasks('tasksToDo', this.value)" class="text-xl rounded-xl">
+                    <option value="">Trier</option>
+                    <option value="1">P.1</option>
+                    <option value="2">P.2</option>
+                    <option value="3">P.3</option>
+                </select>
             </h1>
+            
             <div id="tasksToDo" class="pb-4"></div>
         </div>
         <div id="Doing" class="bg-orange-200 my-10 w-80 h-auto border border-orange-400 rounded-3xl">
             <h1 class="text-center  font-extralight text-3xl bg-orange-500 py-2 border border-blue-800 rounded-3xl rounded-b-none">
-                Doing
+                Doing <span id="tasksDoingCount" class="text-white">(0)</span>
+                <select id="sortDoing" onchange="sortTasks('tasksDoing', this.value)" class="text-xl rounded-xl">
+                    <option value="">Trier</option>
+                    <option value="1">P.1</option>
+                    <option value="2">P.2</option>
+                    <option value="3">P.3</option>
+                </select>
             </h1>
             <div id="tasksDoing" class="pb-4"></div>
         </div>
         <div id="Done" class="bg-green-200 my-10 w-80 h-auto border border-green-400 rounded-3xl">
             <h1 class="text-center  font-extralight text-3xl bg-green-500 py-2 border border-blue-800 rounded-3xl rounded-b-none">
-                Done
+                Done <span id="tasksDoneCount" class="text-white">(0)</span>
+                <select id="sortDone" onchange="sortTasks('tasksDone', this.value)" class="text-xl rounded-xl">
+                    <option value="">Trier</option>
+                    <option value="1">P.1</option>
+                    <option value="2">P.2</option>
+                    <option value="3">P.3</option>
+                </select>
             </h1>
             <div id="tasksDone" class="pb-4"></div>
         </div>
     </div>  
 </section>
-<section id="editModal">
+
+<!-- <section id="editModal">
     <select name="" id="selectStatus">
         <option value="todo">todo</option>
         <option value="doing">doing</option>
         <option value="done">done</option>
     </select>
     <button>Submit</button>
-</section>
+</section> -->
 
 <!-- <footer class="bg-blue-500 h-16 text-center p-4 font-serif font-bold text-3xl">
     List. Check. Win!
@@ -109,79 +137,161 @@
 
 <!-- JS -->
 <script>
-document.getElementById('openTask').addEventListener('click', function() {
-            document.getElementById('Task').classList.remove('hidden');
-        });
 
-        document.getElementById('Add').addEventListener('click', function() {
-            document.getElementById('Task').classList.add('hidden');
-        });
+// function sortTasks(containerId, selectedPriority) {
+//     const container = document.getElementById(containerId);
+//     const tasks = Array.from(container.getElementsByClassName('task'));
 
-        document.getElementById('closeTask').addEventListener('click', function() {
-            document.getElementById('Task').classList.add('hidden');
-        });
+//     // Sort tasks based on the selected priority
+//     tasks.sort((a, b) => {
+//       const aPriority = a.getAttribute('data-priority');
+//       const bPriority = b.getAttribute('data-priority');
+
+//       // If a specific priority is selected, move tasks with that priority to the top
+//       if (selectedPriority) {
+//         if (aPriority === selectedPriority) return -1;
+//         if (bPriority === selectedPriority) return 1;
+//       }
+
+//       // Otherwise, sort numerically by priority (ascending)
+//       return aPriority - bPriority;
+//     });
+
+//     // Append sorted tasks back to the container
+//     tasks.forEach(task => container.appendChild(task));
+//   }
 
 
-document.getElementById('Add').addEventListener('click',function(event){
-    event.preventDefault();
 
-    const title = document.getElementById('Title').value;
-    const Description = document.getElementById('Description').value;
-    const Priorite = document.getElementById('Priorite').value;
-    const Status = document.getElementById('Status').value;
-    const Date = document.getElementById('Date').value;
-    
-    if (title && Status ){
-        const taskElement = document.createElement('div');
 
-        taskElement.classList.add(
-        'bg-gray-100', 'border','border-gray-300','rounded-lg','p-4','my-2', 'mx-4','flex');
-        
-        switch (Priorite) {
-            case "1":
-                taskElement.style.backgroundColor = 'red';
-                break;
-            case "2":
-                taskElement.style.backgroundColor = 'orange'; 
-                break;
-            case "3":
-                taskElement.style.backgroundColor = 'green'; 
-                break;
-        }
-        
+    document.getElementById('openTask').addEventListener('click', function() {
+        document.getElementById('Task').classList.remove('hidden');
+    });
 
-        taskElement.innerHTML = `
-            <div><h3 class="text-xl font-bold">${title}</h3>
-            </div>
-            <hr> 
-            <p class="mt-2">${Description}</p> 
-            <div class="mt-4 flex justify-between items-center w-full">
-                <span>${Date}</span>
-            </div>
-            `;
+    function updateStats() {
+    const totalTasks = document.querySelectorAll('.task').length;
+    const tasksToDoCount = document.querySelectorAll('#To-Do .task').length;
+    const tasksDoingCount = document.querySelectorAll('#Doing .task').length;
+    const tasksDoneCount = document.querySelectorAll('#Done .task').length;
 
-        if (Status==="1"){
-            document.getElementById('To-Do').appendChild(taskElement);
-        }else if (Status==="2"){
-            document.getElementById('Doing').appendChild(taskElement);
-        }else if(Status==='3'){
-            document.getElementById('Done').appendChild(taskElement);
-        }
-
-        document.getElementById('Task').classList.add('hidden');
-        document.getElementById('Title').value='';
-        document.getElementById('Priorite').value='';
-        document.getElementById('Description').value='';
-        document.getElementById('Status').value='';
-        document.getElementById('Date').value='';
-
+    document.getElementById('totalTasks').innerText = totalTasks;
+    document.getElementById('tasksToDoCount').innerText = `(${tasksToDoCount})`;
+    document.getElementById('tasksDoingCount').innerText = `(${tasksDoingCount})`;
+    document.getElementById('tasksDoneCount').innerText = `(${tasksDoneCount})`;
     }
-});
-
     
-function editTask(id){
+    document.getElementById('Add').addEventListener('click', function(event) {
+        event.preventDefault();
+    
+        const title = document.getElementById('Title').value;
+        const description = document.getElementById('Description').value;
+        const priority = document.getElementById('Priorite').value;
+        const status = document.getElementById('Status').value;
+        const date = document.getElementById('Date').value;
+    
+        if (title && status) {
+            const taskElement = document.createElement('div');
+            taskElement.classList.add('task', 'bg-gray-100', 'border', 'border-gray-300', 'rounded-lg', 'p-4', 'my-2', 'mx-4', 'flex');
+                
+            switch (priority) {
+                case "1":
+                    taskElement.style.backgroundColor = 'red';
+                    break;
+                case "2":
+                    taskElement.style.backgroundColor = 'orange'; 
+                    break;
+                case "3":
+                    taskElement.style.backgroundColor = 'green'; 
+                    break;
+            }
+    
+            taskElement.innerHTML = `
+                <div>
+                    <h3 class="text-xl font-bold">${title}</h3>
+                    <hr> 
+                    <p class="mt-2">${description}</p> 
+                    <div class="mt-4 flex justify-between items-center w-full">
+                        <span class="text-l font-semibold">${date}</span>
+                        <div>
+                            <select class="status-select" aria-label="Change task status">
+                                <option value="1" ${status === "1" ? "selected" : ""}>To Do</option>
+                                <option value="2" ${status === "2" ? "selected" : ""}>Doing</option>
+                                <option value="3" ${status === "3" ? "selected" : ""}>Done</option>
+                            </select>
+                            <select class="priority-select" aria-label="Change task priority">
+                                <option value="1" ${priority === "1" ? "selected" : ""}>P.1</option>
+                                <option value="2" ${priority === "2" ? "selected" : ""}>P.2</option>
+                                <option value="3" ${priority === "3" ? "selected" : ""}>P.3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="delete-btn bg-red-500 text-white px-2 py-1 rounded">Supprimer</button>
+                </div>
+            `;
+                
+            // add element in right place
+            if (status === "1") {
+                document.getElementById('To-Do').appendChild(taskElement);
+            } else if (status === "2") {
+                document.getElementById('Doing').appendChild(taskElement);
+            } else if (status === "3") {
+                document.getElementById('Done').appendChild(taskElement);
+            }
+            updateStats();
+    
+            // add des ecouteur for change statu-priorite
+            const statusSelect = taskElement.querySelector('.status-select');
+            const prioritySelect = taskElement.querySelector('.priority-select');
+    
+            statusSelect.addEventListener('change', function() {
+                const newStatus = this.value;
+                // deplace task in right place
+                if (newStatus === "1") {
+                    document.getElementById('To-Do').appendChild(taskElement);
+                } else if (newStatus === "2") {
+                    document.getElementById('Doing').appendChild(taskElement);
+                } else if (newStatus === "3") {
+                    document.getElementById('Done').appendChild(taskElement);
+                }
+                updateStats();
+            });
+    
+            prioritySelect.addEventListener('change', function() {
+                const newPriority = this.value;
+                switch (newPriority) {
+                    case "1":
+                        taskElement.style.backgroundColor = 'red';
+                        break;
+                    case "2":
+                        taskElement.style.backgroundColor = 'orange'; 
+                        break;
+                    case "3":
+                        taskElement.style.backgroundColor = 'green'; 
+                        break;
+                }
+            });
+    
+            // cleen the input
+            document.getElementById('Task').classList.add('hidden');
+            document.getElementById('Title').value = '';
+            document.getElementById('Priorite').value = '';
+            document.getElementById('Description').value = '';
+            document.getElementById('Status').value = '';
+            document.getElementById('Date').value = '';
 
-}
+            const deleteBtn = taskElement.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', function() {
+                taskElement.remove(); 
+                updateStats();
+            });
+
+        }
+    });
+    
+    // close the task
+    document.getElementById('closeTask').addEventListener('click', function() {
+        document.getElementById('Task').classList.add('hidden');
+    });
 
 </script>
 </html>
